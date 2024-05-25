@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const HomeContent = styled.main`
+export const LayoutContainer = styled.main`
   width: 100%;
   max-width: 54rem;
 
