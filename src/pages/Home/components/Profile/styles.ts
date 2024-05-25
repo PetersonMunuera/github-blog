@@ -40,6 +40,12 @@ export const ProfileInfo = styled.div`
       line-height: 1.6;
       color: ${(props) => props.theme.blue};
       text-decoration: none;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+    }
+
+    a:hover {
+      border-bottom: 1px solid ${(props) => props.theme.blue};
     }
 
     a svg {
