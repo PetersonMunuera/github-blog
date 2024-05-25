@@ -11,6 +11,13 @@ export const Post = styled.article`
   background-color: ${(props) => props.theme['base-post']};
   border-radius: 10px;
   padding: 2rem;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: ${(props) => props.theme['base-label']};
+    cursor: pointer;
+  }
 
   header {
     display: flex;

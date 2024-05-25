@@ -30,6 +30,7 @@ export const FormContainer = styled.div`
       border-radius: 6px;
       color: ${(props) => props.theme['base-text']};
       line-height: 1.6;
+      transition: border-color 0.2s;
     }
 
     input::placeholder {
