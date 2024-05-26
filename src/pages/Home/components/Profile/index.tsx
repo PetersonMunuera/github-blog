@@ -7,36 +7,39 @@ import {
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 import { ProfileContainer, ProfileInfo } from './styles'
+import { GithubUser } from '../..'
 
-export function Profile() {
+interface ProfileProps {
+  user: GithubUser
+}
+
+export function Profile({ user }: ProfileProps) {
   return (
     <ProfileContainer>
-      <img src="http://github.com/PetersonMunuera.png" alt="" />
+      <img src={user.avatarUrl} alt="" />
       <ProfileInfo>
         <header>
-          <h1>Peterson Munuera</h1>
-          <a href="">
+          <h1>{user.name}</h1>
+          <a href={user.profileUrl} target="_blanc">
             <span>GITHUB</span>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </a>
         </header>
-        <p>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </p>
+        <p>{user.bio}</p>
         <footer>
           <div>
             <FontAwesomeIcon icon={faGithub} />
-            <span>cameronwll</span>
+            <span>{user.username}</span>
           </div>
-          <div>
-            <FontAwesomeIcon icon={faBuilding} />
-            <span>Rocketseat</span>
-          </div>
+          {user.company && (
+            <div>
+              <FontAwesomeIcon icon={faBuilding} />
+              <span>{user.company}</span>
+            </div>
+          )}
           <div>
             <FontAwesomeIcon icon={faUserGroup} />
-            <span>32 seguidores</span>
+            <span>{user.followers} seguidores</span>
           </div>
         </footer>
       </ProfileInfo>

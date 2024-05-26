@@ -18,6 +18,7 @@ export const ProfileContainer = styled.div`
 `
 
 export const ProfileInfo = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
 
