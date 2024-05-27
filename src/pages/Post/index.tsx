@@ -19,8 +19,8 @@ export function Post() {
             <span>VOLTAR</span>
           </NavLink>
           <NavLink to="/">
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
             <span>VER NO GITHUB</span>
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </NavLink>
         </nav>
 

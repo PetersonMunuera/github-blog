@@ -5,6 +5,11 @@ export const PostsContainer = styled.section`
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   margin: 3rem 0;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `
 
 export const Post = styled.article`
