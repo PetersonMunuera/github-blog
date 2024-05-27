@@ -13,7 +13,7 @@ export function Posts({ posts }: PostsProps) {
     <PostsContainer>
       {posts.map((post) => {
         return (
-          <NavLink to={`/post/${post.id}`} key={post.id}>
+          <NavLink to={`/post/${post.number}`} key={post.number}>
             <Post>
               <header>
                 <h2>{post.title}</h2>

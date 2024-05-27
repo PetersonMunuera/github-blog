@@ -1,3 +1,7 @@
+import { useCallback, useEffect, useState } from 'react'
+import { api } from '../../lib/axios'
+import { NavLink, useParams } from 'react-router-dom'
+import Markdown from 'react-markdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -7,9 +11,55 @@ import {
   faComment,
 } from '@fortawesome/free-solid-svg-icons'
 import { PostContent, PostInfoContainer } from './styles'
-import { NavLink } from 'react-router-dom'
+import { ptBR } from 'date-fns/locale'
+import { formatDistanceToNow } from 'date-fns'
+
+interface Post {
+  title: string
+  htmlURL: string
+  username: string
+  createdAt: Date
+  comments: number
+  body: string
+}
+
+interface IssueResponseType {
+  title: string
+  html_url: string
+  user: {
+    login: string
+  }
+  created_at: string
+  comments: number
+  body: string
+}
 
 export function Post() {
+  const [post, setPost] = useState<Post>({} as Post)
+
+  const { number: issueNumber } = useParams()
+
+  const fetchPost = useCallback(async () => {
+    const issueResponse = await api.get(
+      `/repos/PetersonMunuera/github-blog/issues/${issueNumber}`,
+    )
+
+    const issue: IssueResponseType = issueResponse.data
+
+    setPost({
+      body: issue.body,
+      comments: issue.comments,
+      createdAt: new Date(issue.created_at),
+      htmlURL: issue.html_url,
+      title: issue.title,
+      username: issue.user.login,
+    })
+  }, [issueNumber])
+
+  useEffect(() => {
+    fetchPost()
+  }, [fetchPost])
+
   return (
     <>
       <PostInfoContainer>
@@ -18,43 +68,38 @@ export function Post() {
             <FontAwesomeIcon icon={faChevronLeft} />
             <span>VOLTAR</span>
           </NavLink>
-          <NavLink to="/">
+          <NavLink target="_blanc" to={post.htmlURL}>
             <span>VER NO GITHUB</span>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </NavLink>
         </nav>
 
-        <h1>JavaScript data types and data structures</h1>
+        <h1>{post.title}</h1>
 
         <footer>
           <div>
             <FontAwesomeIcon icon={faGithub} />
-            <span>cameronwll</span>
+            <span>{post.username}</span>
           </div>
           <div>
             <FontAwesomeIcon icon={faCalendarDay} />
-            <span>Há 1 dia</span>
+            {post.createdAt && (
+              <span>
+                {formatDistanceToNow(post.createdAt, {
+                  addSuffix: true,
+                  locale: ptBR,
+                })}
+              </span>
+            )}
           </div>
           <div>
             <FontAwesomeIcon icon={faComment} />
-            <span>5 comentários</span>
+            <span>{post.comments} comentários</span>
           </div>
         </footer>
       </PostInfoContainer>
       <PostContent>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo, itaque?
-        Necessitatibus laborum dolore veniam sequi vel deserunt libero, fugit,
-        accusamus nulla atque quos provident quas officia deleniti odio ut
-        repellat? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo,
-        itaque? Necessitatibus laborum dolore veniam sequi vel deserunt libero,
-        fugit, accusamus nulla atque quos provident quas officia deleniti odio
-        ut repellat? Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-        Quo, itaque? Necessitatibus laborum dolore veniam sequi vel deserunt
-        libero, fugit, accusamus nulla atque quos provident quas officia
-        deleniti odio ut repellat? Lorem ipsum dolor sit, amet consectetur
-        adipisicing elit. Quo, itaque? Necessitatibus laborum dolore veniam
-        sequi vel deserunt libero, fugit, accusamus nulla atque quos provident
-        quas officia deleniti odio ut repellat?
+        <Markdown>{post.body}</Markdown>
       </PostContent>
     </>
   )

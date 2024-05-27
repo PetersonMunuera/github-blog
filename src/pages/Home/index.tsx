@@ -5,14 +5,14 @@ import { SearchForm } from './components/SearchForm'
 import { api } from '../../lib/axios'
 
 export interface PostType {
-  id: string
+  number: number
   title: string
   body: string
   createdAt: Date
 }
 
 interface IssueResponseType {
-  id: string
+  number: number
   title: string
   body: string
   created_at: string
@@ -34,7 +34,7 @@ export function Home() {
     setPosts(
       issuesListResponse.map((issue) => {
         return {
-          id: issue.id,
+          number: issue.number,
           title: issue.title,
           body: issue.body,
           createdAt: new Date(issue.created_at),
